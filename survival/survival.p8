@@ -3,7 +3,7 @@ version 42
 __lua__
 --picofier survival
 
-#include ../../utils/sort.lua
+#include ../utils/sort.lua
 
 function _init()
 	웃=player:new{x=60,y=92}
