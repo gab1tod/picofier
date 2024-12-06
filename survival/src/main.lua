@@ -1,4 +1,5 @@
 --Picfier main class
+--version 0.1
 
 function _init()
 	poke(0x5F2D, 1)	--enable mouse inputs
@@ -53,12 +54,14 @@ function _update60()
 end
 
 function _draw()
-	cls(14)
+	cls(0)
 	if (t() - Player.gun._fireTs < 0.001) then
 		camera(flr(cos(Player.aimAngle) + 0.5), flr(sin(Player.aimAngle) + 0.5))
 	else
 		camera()
 	end
+
+	map()
 
 	draw_entities()
 

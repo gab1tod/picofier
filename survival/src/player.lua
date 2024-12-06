@@ -17,6 +17,29 @@ Player = Entity:new{
 
 		Entity.update(_ENV)
 
+		-- TODO: hit test with map
+		if (v > 0) then
+			if (vx > 0) then
+				if (vy > 0) then	--right down
+
+				elseif (vy < 0) then	--right up
+
+				else 	--right
+
+				end
+			else
+				if (vy > 0) then	--left down
+
+				elseif (vy < 0) then	--left up
+
+				else 	--left
+
+				end
+			end
+
+			Object.update(_ENV)
+		end
+
 		if (moving) then
 			if (sprite < 2) sprite = 2
 			sprite += running and 0.225 or 0.15

@@ -1,5 +1,6 @@
 --utils
 
+--distance between two points
 function dist(x1, y1, x2, y2)
 	x2 = x2 or 0
 	y2 = y2 or 0
@@ -7,7 +8,7 @@ function dist(x1, y1, x2, y2)
 	return sqrt((x2 - x1)^2 + (y2 - y1)^2)
 end
 
-
+--sorting table
 function sort(t, comp)
 	comp = comp or function(a, b) return a < b end
 	for i = 1, #t do
@@ -29,4 +30,10 @@ end
 function proj(ax, ay, bx, by)
 	local k = dot(ax, ay, bx, by) / dot(bx, by, bx, by)
 	return k * bx, k * by
+end
+
+
+--is solid
+function solid(x, y)
+	return fget(mget(x/8, y/8), 0)
 end
