@@ -36,6 +36,24 @@ Entity = Object:new{
 		if (abs(vx) > 0.001) flipped = vx < 0
 
 		Object.update(_ENV)	--update end position
+
+		if (moving and _ENV:collideWithWall()) then
+			y -= vy
+			Object.update(_ENV)
+			if (_ENV:collideWithWall()) then
+				x -= vx
+				Object.update(_ENV)
+			end
+			y += vy
+			Object.update(_ENV)
+			if (_ENV:collideWithWall()) then
+				y -= vy
+				Object.update(_ENV)
+			end
+		end
+	end,
+	collideWithWall = function(_ENV)
+		return solid(x, y) or solid(ex, y) or solid(x, ey) or solid(ex, ey)
 	end
 }
 

@@ -25,8 +25,8 @@ function _update60()
 	mouseX, mouseY, mouseBtn = stat(32), stat(33), stat(34)	--mouse info
 
 	if (btnp(🅾️)) then
-		local a = rnd(1)
-		add(entities, Zombie:new{x = 64 - cos(a) * 64, y = 64 - sin(a) * 64})
+		local zy = rnd(1) > 0.5 and 104 or 16
+		add(entities, Zombie:new{x = 120, y = zy})
 	end
 
 	--input direction
