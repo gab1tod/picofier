@@ -37,3 +37,31 @@ end
 function solid(x, y)
 	return fget(mget(x/8, y/8), 0)
 end
+
+
+--delayed actions (promises)
+_promises = {}
+function resumePromises()
+	for p in all(_promises) do
+		coresume(p)
+		if (costatus(p) == 'dead') del(_promises, p)
+	end
+end
+
+function promise(callback)
+	local p = cocreate(callback)
+	add(_promises, p)
+	return p
+end
+
+function delayed(callback, delay)
+	local ts = t()
+		
+	return promise(function()
+		while (t() < ts + delay) do
+			yield()
+		end
+
+		callback()
+	end)
+end

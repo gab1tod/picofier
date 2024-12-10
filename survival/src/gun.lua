@@ -99,11 +99,28 @@ Shotgun = Gun:new{
 	fireRate = 0.6,	--delay between two shots
 	precision = 0.05,	--angle of precision loss
 	bulletSpeed = 10,
-	bulletDamage = 34,
+	bulletDamage = 40,
 	fire = function(_ENV, a)
 		Gun.fire(_ENV, a)
 		Gun.fire(_ENV, a)
 		Gun.fire(_ENV, a)
+	end
+}
+
+Bullpup = Gun:new{
+	spx = 87,
+	w = 9,  h = 5,
+	fireRate = 0.09,	--delay between two shots
+	burstRate = 0.4,	--delay between two bursts
+	precision = 0.005,	--angle of precision loss
+	bulletSpeed = 11,
+	bulletDamage = 34,
+	fire = function(_ENV, a)
+		if (t() - _fireTs < burstRate and not _firing) return
+
+		Gun.fire(_ENV, a)
+		delayed(function() Gun.fire(_ENV, a) end, 0.095)
+		delayed(function() Gun.fire(_ENV, a) end, 0.19)
 	end
 }
 

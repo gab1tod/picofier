@@ -15,6 +15,7 @@ function _init()
 	add(entities, GunItem:new{x = 70, gun = AssaultRiffle})
 	add(entities, GunItem:new{x = 90, gun = Sniper})
 	add(entities, GunItem:new{x = 110, gun = Shotgun})
+	add(entities, GunItem:new{y = 90, gun = Bullpup})
 
 	Player.x = 60
 	Player.y = 60
@@ -22,6 +23,8 @@ function _init()
 end
 
 function _update60()
+	resumePromises()
+
 	mouseX, mouseY, mouseBtn = stat(32), stat(33), stat(34)	--mouse info
 
 	if (btnp(🅾️)) then
