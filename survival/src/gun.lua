@@ -109,10 +109,10 @@ Shotgun = Gun:new{
 
 Bullpup = Gun:new{
 	spx = 87,
-	w = 9,  h = 5,
+	w = 10,  h = 5,
 	fireRate = 0.09,	--delay between two shots
 	burstRate = 0.4,	--delay between two bursts
-	precision = 0.005,	--angle of precision loss
+	precision = 0.0075,	--angle of precision loss
 	bulletSpeed = 11,
 	bulletDamage = 34,
 	fire = function(_ENV, a)

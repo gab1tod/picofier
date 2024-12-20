@@ -65,3 +65,39 @@ function delayed(callback, delay)
 		callback()
 	end)
 end
+
+
+--raycast
+function raycast(x0, y0, dx, dy, maxDist)
+	local dmax = dist(dx, dy)
+	dx, dy = dx/dmax, dy/dmax
+	maxDist = maxDist or dmax
+	
+	local d = 0
+	local tx, ty = flr(x0/8), flr(y0/8)
+	
+	local hstep, vstep = sgn(dx), sgn(dy)
+	local htmax = ((hstep > 0 and (tx + 1) * 8 or tx * 8) - x0) / dx
+	local vtmax = ((vstep > 0 and (ty + 1) * 8 or ty * 8) - y0) / dy
+	
+	local htd, vtd = abs(8/dx), abs(8/dy)
+	local x, y = x0 + d * dx, y0 + d * dy
+	
+	while d < maxDist do
+		if (fget(mget(tx, ty), 0)) return true, x, y, d
+	
+		if (htmax < vtmax) then
+			tx += hstep
+			d = htmax
+			htmax += htd
+		else
+			ty += vstep
+			d = vtmax
+			vtmax += vtd
+		end
+
+		x, y = x0 + d * dx, y0 + d * dy
+	end
+	
+	return false, x, y, d
+end
