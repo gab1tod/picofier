@@ -18,6 +18,11 @@ Object = class:new{
 	draw = function(_ENV) end,
 	collide = function(_ENV, other)	--collision test
 		return ex >= other.x and x <= other.ex and ey >= other.y and y <= other.ey
+	end,
+	inView = function(_ENV, tx, ty)	--in view of the object
+		local dx, dy = tx - x, ty - y
+		local d = dist(dx, dy) - 4
+		return not (raycast(x, y, dx, dy, d) or raycast(ex, y, dx, dy, d) or raycast(x, ey, dx, dy, d) or raycast(ex, ey, dx, dy, d))
 	end
 }
 
@@ -27,6 +32,7 @@ Entity = Object:new{
 	v = 0,	--linear velocity
 	speed = 0.45,
 	moving = false, flipped = false,
+	pclosestPFNode = nil, closestPFNode = nil,	--closest and previous closest pathfinding node
 	update = function(_ENV)
 		x += vx
 		y += vy
@@ -50,6 +56,12 @@ Entity = Object:new{
 				y -= vy
 				Object.update(_ENV)
 			end
+		end
+
+		pclosestPFNode = closestPFNode
+		closestPFNode = nil
+		for node in all(pfNodes) do
+			if (not closestPFNode or dist(closestPFNode.x, closestPFNode.y, cx, cy) > dist(node.x, node.y, cx, cy)) closestPFNode = node
 		end
 	end,
 	collideWithWall = function(_ENV)

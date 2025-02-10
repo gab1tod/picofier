@@ -17,9 +17,23 @@ function _init()
 	add(entities, GunItem:new{x = 110, gun = Shotgun})
 	add(entities, GunItem:new{y = 90, gun = Bullpup})
 
+	local n1, n2, n3, n4, n5	--pathfinding nodes
+	n1 = PFNode:new{name = 'n1', x = 14, y = 2.5}
+	n2 = PFNode:new{name = 'n2', x = 14, y = 13.5}
+	n3 = PFNode:new{name = 'n3', x = 13.5, y = 6.5}
+	n4 = PFNode:new{name = 'n4', x = 6, y = 7}
+	n5 = PFNode:new{name = 'n5', x = 6, y = 3}
+	add(n1.links, n3) add(n3.links, n1)
+	add(n2.links, n3) add(n3.links, n2)
+	add(n3.links, n4) add(n4.links, n3)
+	add(n4.links, n5) add(n5.links, n4)
+
 	Player.x = 60
 	Player.y = 60
 	add(entities, Player)
+
+	--Log
+	printh('\n\n\n')
 end
 
 function _update60()
@@ -67,6 +81,14 @@ function _draw()
 	map()
 
 	draw_entities()
+
+	for node in all(pfNodes) do
+		for link in all(node.links) do
+			line(node.x, node.y, link.x, link.y, 7)
+		end
+		circ(node.x, node.y, 2, node == Player.closestPFNode and 10 or 7)
+		print(node.name, node.x + 3, node.y + 3, node == Player.closestPFNode and 10 or 7)
+	end
 
 	spr(6, mouseX - 3, mouseY - 3)	--mousr cursor
 end
