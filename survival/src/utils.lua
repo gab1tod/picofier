@@ -20,6 +20,14 @@ function sort(t, comp)
 	end
 end
 
+--test if in table
+function isIn(t, v)
+	for e in all(t) do
+		if (e == v) return true
+	end
+	return false
+end
+
 
 --vectorial dot product
 function dot(ax, ay, bx, by)

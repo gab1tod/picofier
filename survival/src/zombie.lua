@@ -99,6 +99,8 @@ Spawner = Object:new{
 		res.spawnX *= 8
 		res.spawnY *= 8
 
+		Object.update(res)
+
 		return res
 	end,
 }
@@ -122,35 +124,38 @@ PFNode = class:new{
 
 		return res
 	end,
-	findPath = function(_ENV, target, journey)
-		journey = journey or {}
-		add(journey, _ENV)
-		printh(_ENV.name..' ->')
+	findPath = function(_ENV, target)
+		local Q = {_ENV}
+		local explored = {_ENV}
+		local parents = {}
+		local found = false
 
-		if (_ENV == target) return journey
+		while #Q > 0 do
+			local node = deli(Q, 1)
 
-		for link in all(links) do
-			local seen = false
-			for n in all(journey) do
-				if (n == link) then
-					seen = true
-					break
-				end
-			end
+			found = node == target
+			if (found) break
 
-			if (not seen) then
-				local pjourney = {unpack(journey)}
-				local path = link:findPath(target, journey)
-				if (path) then
-					printh('-> Finish')
-					return path
-				else
-					journey = pjourney
-					printh('-> X\n')
+			for link in all(node.links) do
+				if not isIn(explored, link) then
+					add(explored, link)
+					parents[link] = node
+					add(Q, link)
 				end
 			end
 		end
 
-		return nil
+		--build path
+		if (not found) return nil
+
+		local path = {}
+		local prec = target
+		while prec != _ENV do
+			add(path, prec, 1)
+			prec = parents[prec]
+		end
+		add(path, _ENV, 1)
+
+		return path
 	end
 }

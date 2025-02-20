@@ -16,8 +16,5 @@ The player is in a mansion, he has a gun and can move around. Zombies spawn in w
 - [ ] Buy weapons
 - [ ] Zombie death animation
 - [ ] Player death animation
-
-
-
-![image-20250206100246937](C:\Users\gabin\AppData\Roaming\Typora\typora-user-images\image-20250206100246937.png)
+- [ ] Optimize zombie pathfinding to be called once every frame (a zombie at a time, not all zombies at once)
 

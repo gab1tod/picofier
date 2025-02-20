@@ -7,6 +7,13 @@ function _init()
 	--make color changes
 	pal(14, -10, 1)
 
+	--set spawners black
+	for i=32,63 do
+		for j=8,15 do
+			sset(i, j, 0)
+		end
+	end
+
 	Player.x = 252
 	Player.y = 348
 	add(entities, Player)
@@ -106,6 +113,22 @@ function _draw()
 
 	draw_entities()
 
+	--draw spawners shades
+	pal(1, 0, 0)
+	for room in all(spawners) do
+		for spawn in all(room) do
+			if (spawn.spawnX != 0) then
+				spr(27, spawn.x + (spawn.spawnX > 0 and -4 or -12), spawn.y, 3, 1, spawn.spawnX < 0)
+				spr(27, spawn.x + (spawn.spawnX > 0 and -4 or -12), spawn.y - 6, 3, 1, spawn.spawnX < 0)
+			else
+				spr(43, spawn.x, spawn.y + (spawn.spawnY > 0 and 0 or -20), 1, 3, false, spawn.spawnY < 0)
+			end
+		end
+	end
+	pal(0)
+
+	--[[
+	--draw pathfinding nodes
 	for node in all(pfNodes) do
 		for link in all(node.links) do
 			line(node.x, node.y, link.x, link.y, 7)
@@ -113,6 +136,7 @@ function _draw()
 		circ(node.x, node.y, 2, node == Player.closestPFNode and 10 or 7)
 		print(node.name, node.x + 3, node.y + 3, node == Player.closestPFNode and 10 or 7)
 	end
+	]]--
 
 	spr(6, mouseX - 3, mouseY - 3)	--mousr cursor
 end
