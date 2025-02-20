@@ -61,7 +61,7 @@ Entity = Object:new{
 		pclosestPFNode = closestPFNode
 		closestPFNode = nil
 		for node in all(pfNodes) do
-			if (not closestPFNode or dist(closestPFNode.x, closestPFNode.y, cx, cy) > dist(node.x, node.y, cx, cy)) closestPFNode = node
+			if (not closestPFNode or (not raycast(cx, cy, node.x - cx, node.y - cy) and dist(closestPFNode.x, closestPFNode.y, cx, cy) > dist(node.x, node.y, cx, cy))) closestPFNode = node
 		end
 	end,
 	collideWithWall = function(_ENV)

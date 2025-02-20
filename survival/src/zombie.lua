@@ -85,11 +85,30 @@ Zombie = Entity:new{
 	end
 }
 
+
+--Spawner
+spawners = {}
+
+Spawner = Object:new{
+	spawnX = 0, spawnY = 0,	--spawning direction
+	new = function(_ENV, body)
+		local res = class.new(_ENV, body)
+
+		res.x *= 8
+		res.y *= 8
+		res.spawnX *= 8
+		res.spawnY *= 8
+
+		return res
+	end,
+}
+
+
 --Pathfinding node
 pfNodes = {}
 
 PFNode = class:new{
-	name = '[PFNode]',
+	room = '[PFNode romm]', index = 0,
 	x = 0, y = 0,	--position
 	--links = {},
 	new = function(_ENV, body)
@@ -97,6 +116,7 @@ PFNode = class:new{
 
 		res.x *= 8
 		res.y *= 8
+		res.name = res.room..'-'..res.index
 		res.links = res.links or {}
 		add(pfNodes, res)
 

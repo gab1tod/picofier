@@ -45,3 +45,9 @@ Player = Entity:new{
 		gun:draw()
 	end
 }
+
+Camera = Object:new{
+	draw = function(_ENV)
+		camera(x, y)
+	end
+}

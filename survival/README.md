@@ -10,7 +10,7 @@ The player is in a mansion, he has a gun and can move around. Zombies spawn in w
 
 - [x] Zombies pathfinding
 - [ ] Zombies can kill you
-- [ ] A bigger map
+- [x] A bigger map
 - [ ] Start / End screens
 - [ ] Open doors
 - [ ] Buy weapons
