@@ -7,7 +7,7 @@ Gun = Object:new{
 	fireRate = 0.3,	--delay between two shots
 	precision = 0.04,	--angle of precision loss
 	bulletSpeed = 8,
-	bulletDamage = 10,
+	bulletDamage = 11,
 	_fireTs = 0,	--last shot timestamp
 	_firing = false,
 	new = function(_ENV, body)
@@ -68,7 +68,7 @@ Pistol = Gun:new{	--Colt M 1911
 	bulletSpeed = 9
 }
 
-Machinegun = Gun:new{	--Thompson
+Submachinegun = Gun:new{	--Thompson
 	spx = 62, spy = 4,
 	w = 9,
 	fireRate = 0.08,	--delay between two shots
@@ -122,6 +122,14 @@ Bullpup = Gun:new{
 		delayed(function() Gun.fire(_ENV, a) end, 0.095)
 		delayed(function() Gun.fire(_ENV, a) end, 0.19)
 	end
+}
+
+Machinegun = Gun:new{
+	spx = 97,
+	w = 12, h = 5,
+	fireRate = 0.12,	--delay between two shots
+	precision = 0.028,	--angle of precision loss
+	bulletDamage = 64
 }
 
 

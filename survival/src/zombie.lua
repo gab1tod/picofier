@@ -28,7 +28,7 @@ Zombie = Entity:new{
 				local journey = closestPFNode:findPath(Player.pclosestPFNode)
 				targetPFNode = journey[1]
 				for targ in all(journey) do
-					local obstructed = not _ENV:inView(targ.x, targ.y)
+					local obstructed = not _ENV:inView(targ.x * 8, targ.y * 8)
 
 					printh(targ.name..(obstructed and ' obstructed' or ' visible'))
 
@@ -38,7 +38,7 @@ Zombie = Entity:new{
 				printh('')
 			end
 			if (targetPFNode) then
-				dx, dy = targetPFNode.x - cx, targetPFNode.y - cy
+				dx, dy = targetPFNode.x - tx, targetPFNode.y - ty
 			else
 				dx, dy = 0, 0
 			end
@@ -110,14 +110,12 @@ Spawner = Object:new{
 pfNodes = {}
 
 PFNode = class:new{
-	room = '[PFNode romm]', index = 0,
+	room = '[PFNode room]', index = 0,
 	x = 0, y = 0,	--position
 	--links = {},
 	new = function(_ENV, body)
 		local res = class.new(_ENV, body)
 
-		res.x *= 8
-		res.y *= 8
 		res.name = res.room..'-'..res.index
 		res.links = res.links or {}
 		add(pfNodes, res)

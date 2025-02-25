@@ -17,4 +17,5 @@ The player is in a mansion, he has a gun and can move around. Zombies spawn in w
 - [ ] Zombie death animation
 - [ ] Player death animation
 - [ ] Optimize zombie pathfinding to be called once every frame (a zombie at a time, not all zombies at once)
+- [ ] Unstuck zombies blocked in walls
 

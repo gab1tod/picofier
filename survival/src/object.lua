@@ -1,11 +1,17 @@
 --object and entity
 
-Object = class:new{
+Scene = class:new{
+	update = function(_ENV) end,
+	draw = function(_ENV) end
+}
+
+Object = Scene:new{
 	x = 0, y = 0,	--position
 	z = 0,	--display index
 	w = 8, h = 8,	--size
 	cx = 4, cy = 4,	--center position
 	ex = 8, ey = 8,	--end position
+	tx = 0, ty = 0,	--tile position
 	update = function(_ENV)
 		--update end position
 		ex = x + w
@@ -14,8 +20,11 @@ Object = class:new{
 		--update center position
 		cx = x + w/2
 		cy = y + h/2
+
+		--update tile position
+		tx = cx / 8
+		ty = cy / 8
 	end,
-	draw = function(_ENV) end,
 	collide = function(_ENV, other)	--collision test
 		return ex >= other.x and x <= other.ex and ey >= other.y and y <= other.ey
 	end,
@@ -60,8 +69,13 @@ Entity = Object:new{
 
 		pclosestPFNode = closestPFNode
 		closestPFNode = nil
+		local closestPFNodeDist
 		for node in all(pfNodes) do
-			if (not closestPFNode or (not raycast(cx, cy, node.x - cx, node.y - cy) and dist(closestPFNode.x, closestPFNode.y, cx, cy) > dist(node.x, node.y, cx, cy))) closestPFNode = node
+			local nodeDist = dist(node.x, node.y, tx, ty)
+			if (not closestPFNode or (not raycast(cx, cy, node.x * 8 - cx, node.y * 8 - cy) and closestPFNodeDist > nodeDist)) then
+			closestPFNode = node
+			closestPFNodeDist = nodeDist
+		end
 		end
 	end,
 	collideWithWall = function(_ENV)
