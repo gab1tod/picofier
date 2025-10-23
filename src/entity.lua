@@ -68,7 +68,8 @@ function player(x,y)
 	웃.flrts=0	--floored timestamp
 	웃.flrt=0.15	--floored delay
 	웃.wld=0	--walled (-1:left,1:right,0:none)
-	웃.wjit=0.15	--wall jump inibition time
+	웃.wldts=0	--walled timestamp
+	웃.wjit=0.2	--wall jump inibition time
 	웃.rit=0.25	--respawn inibition time
 	웃.its=0	--inhibition timestamp (disable ⬅️➡️)
 	웃.mvg=false	--moving
@@ -80,6 +81,7 @@ function player(x,y)
 	웃.wlsp=0	--wall sprite
 	function 웃:update()
 		local flrd=time()<웃.flrts	--floored
+		local walled=time()<웃.wldts	--walled
 	
 		local onice=flrd and 웃.flrsp!=nil and fget(웃.flrsp,2)
 	
@@ -111,7 +113,7 @@ function player(x,y)
 			 	웃.flrts=0; flrd=false
 				 웃.jmp=true
 				 웃.vy=-웃.jf
-				 웃.wld=0
+				 웃.wld=0; walled=false
 				 sfx(1,-1,0,8)
 				 for i=0,4 do
 				 	local x=rnd(4)
@@ -123,12 +125,12 @@ function player(x,y)
 				 	local tc=sget(tx,ty)
 				 	particle(tc,웃.x+x,웃.y+7,cos(a)*v,sin(a)*v,tol,0.9,0.5)
 				 end
-			 elseif (웃.wld!=0) then
+			 elseif (walled) then
 			 	웃.jmp=true
 			 	웃.vy=-웃.jf
 			 	웃.vx=-sgn(웃.wld)*웃.wjf
 			 	웃.d=-웃.wld
-			 	웃.wld=0
+			 	--웃.wld=0
 			 	웃.its=time()+웃.wjit
 			 	sfx(1,-1,16)
 				 for i=0,4 do
@@ -149,7 +151,7 @@ function player(x,y)
 		if (웃.jmp and not (웃.fln or flrd)) then 웃.vy+=웃.jg
 		else 웃.vy+=웃.g end
 		
-		local wslide=not flrd and 웃.wld==웃.d and 웃.vy>0
+		local wslide=not flrd and walled and 웃.wld==웃.d and 웃.vy>0
 		
 		웃.vx=onice and 웃.vx*웃.ixf or 웃.vx*웃.xf
 		if (wslide) then
@@ -212,14 +214,16 @@ function player(x,y)
 			end
 		end
 		
-		웃.wld=0
+		--웃.wld=0
 		for i=2,6 do
 			if (웃.d>0 and solid(웃.x+8,웃.y+i)) then
 				웃.wld=1
+				웃.wldts=time()+웃.flrt
 				웃.wlsp=mget((웃.x+8)/8,(웃.y+i)/8)
 			end
 			if (웃.d<0 and solid(웃.x-1,웃.y+i)) then
 				웃.wld=-1
+				웃.wldts=time()+웃.flrt
 				웃.wlsp=mget((웃.x-1)/8,(웃.y+i)/8)
 			end
 		end
@@ -268,7 +272,7 @@ function player(x,y)
 		--sprites
 		if (not flrd) then
 			if (웃.fln) then
-				if (웃.wld!=0) then 웃.sp=18
+				if (wslide) then 웃.sp=18
 				else 웃.sp=4 end
 			else 웃.sp=3 end
 		elseif (웃.mvg) then
